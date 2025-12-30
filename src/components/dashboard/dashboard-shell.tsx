@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, ListTodo, Settings } from 'lucide-react';
+import { Home, BarChart3, ListTodo, Settings } from 'lucide-react';
 import { LogoutButton } from '@/components/dashboard/logout-button';
 import { ThemeToggle } from '@/components/theme-toggle';
 
@@ -11,7 +11,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: '/dashboard', icon: Home, label: 'Hoje' },
-    { href: '/dashboard/habits', icon: ListTodo, label: 'Hábitos' },
+    { href: '/dashboard/progress', icon: BarChart3, label: 'Progresso' },
+    { href: '/dashboard/habits', icon: ListTodo, label: 'Habitos' },
     { href: '/dashboard/settings', icon: Settings, label: 'Ajustes' },
   ];
 
