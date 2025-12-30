@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, ListTodo, Settings } from 'lucide-react';
 import { LogoutButton } from '@/components/dashboard/logout-button';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,7 +23,10 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           <Link href="/dashboard" className="text-headline text-label-primary">
             Habit Tracker
           </Link>
-          <LogoutButton />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <LogoutButton />
+          </div>
         </div>
       </header>
 

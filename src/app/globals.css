@@ -82,43 +82,41 @@
   --duration-slow: 500ms;
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Apple System Colors - Dark Mode */
-    --system-blue: #0A84FF;
-    --system-green: #30D158;
-    --system-indigo: #5E5CE6;
-    --system-orange: #FF9F0A;
-    --system-pink: #FF375F;
-    --system-purple: #BF5AF2;
-    --system-red: #FF453A;
-    --system-teal: #64D2FF;
-    --system-yellow: #FFD60A;
+/* Dark Mode - Using class for manual toggle */
+.dark {
+  /* Apple System Colors - Dark Mode */
+  --system-blue: #0A84FF;
+  --system-green: #30D158;
+  --system-indigo: #5E5CE6;
+  --system-orange: #FF9F0A;
+  --system-pink: #FF375F;
+  --system-purple: #BF5AF2;
+  --system-red: #FF453A;
+  --system-teal: #64D2FF;
+  --system-yellow: #FFD60A;
 
-    /* Gray Scale - Dark Mode */
-    --system-gray: #8E8E93;
-    --system-gray2: #636366;
-    --system-gray3: #48484A;
-    --system-gray4: #3A3A3C;
-    --system-gray5: #2C2C2E;
-    --system-gray6: #1C1C1E;
+  /* Gray Scale - Dark Mode */
+  --system-gray: #8E8E93;
+  --system-gray2: #636366;
+  --system-gray3: #48484A;
+  --system-gray4: #3A3A3C;
+  --system-gray5: #2C2C2E;
+  --system-gray6: #1C1C1E;
 
-    /* Semantic Colors - Dark Mode */
-    --label-primary: #FFFFFF;
-    --label-secondary: rgba(235, 235, 245, 0.6);
-    --label-tertiary: rgba(235, 235, 245, 0.3);
-    --label-quaternary: rgba(235, 235, 245, 0.18);
+  /* Semantic Colors - Dark Mode */
+  --label-primary: #FFFFFF;
+  --label-secondary: rgba(235, 235, 245, 0.6);
+  --label-tertiary: rgba(235, 235, 245, 0.3);
+  --label-quaternary: rgba(235, 235, 245, 0.18);
 
-    /* Backgrounds - Dark Mode */
-    --bg-primary: #000000;
-    --bg-secondary: #1C1C1E;
-    --bg-tertiary: #2C2C2E;
+  /* Backgrounds - Dark Mode */
+  --bg-primary: #000000;
+  --bg-secondary: #1C1C1E;
+  --bg-tertiary: #2C2C2E;
 
-    /* Separators - Dark Mode */
-    --separator: rgba(84, 84, 88, 0.6);
-    --separator-opaque: #38383A;
-  }
+  /* Separators - Dark Mode */
+  --separator: rgba(84, 84, 88, 0.6);
+  --separator-opaque: #38383A;
 }
 
 /* Base Styles */
