@@ -1,0 +1,15 @@
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Evolution API (WhatsApp)
+EVOLUTION_API_URL=your_evolution_api_url
+EVOLUTION_API_KEY=your_evolution_api_key
+EVOLUTION_INSTANCE=your_instance_name
+
+# Claude (opcional, para intent complexo)
+ANTHROPIC_API_KEY=your_anthropic_key
+
+# Cron Secret (para proteger endpoint de cron)
+CRON_SECRET=your_cron_secret
