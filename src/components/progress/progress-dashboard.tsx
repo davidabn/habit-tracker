@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { StreakCard } from './streak-card';
 import { WeeklyChart } from './weekly-chart';
 import { CalendarHeatmap } from './calendar-heatmap';
@@ -21,9 +21,9 @@ type Period = 7 | 30 | 'all';
 export function ProgressDashboard({ habits }: ProgressDashboardProps) {
   const [period, setPeriod] = useState<Period>(7);
 
-  const streakData = calculateStreaks(habits);
-  const weeklyData = getWeeklyChartData(habits);
-  const habitStats = getHabitStats(habits, period);
+  const streakData = useMemo(() => calculateStreaks(habits), [habits]);
+  const weeklyData = useMemo(() => getWeeklyChartData(habits), [habits]);
+  const habitStats = useMemo(() => getHabitStats(habits, period), [habits, period]);
 
   const periodLabels: Record<Period, string> = {
     7: '7 dias',

@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 
 interface HabitCardProps {
   habit: HabitWithLogs;
-  onToggle?: () => void;
+  onToggle?: (completed: boolean) => void;
 }
 
 export function HabitCard({ habit, onToggle }: HabitCardProps) {
@@ -29,6 +29,7 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
           await supabase.from('habit_logs').delete().eq('id', todayLog.id);
         }
         setIsCompleted(false);
+        onToggle?.(false);
       } else {
         await supabase.from('habit_logs').insert({
           habit_id: habit.id,
@@ -36,9 +37,8 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
           source: 'web',
         });
         setIsCompleted(true);
+        onToggle?.(true);
       }
-
-      onToggle?.();
     } catch (error) {
       console.error('Error toggling habit:', error);
     } finally {

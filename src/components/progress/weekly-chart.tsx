@@ -1,5 +1,6 @@
 'use client';
 
+import { memo, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -17,12 +18,12 @@ interface WeeklyChartProps {
   data: WeekData[];
 }
 
-export function WeeklyChart({ data }: WeeklyChartProps) {
+export const WeeklyChart = memo(function WeeklyChart({ data }: WeeklyChartProps) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
 
-  // Transform data for the chart
-  const chartData = data[0]?.days.map((_, dayIndex) => {
+  // Transform data for the chart (memoized)
+  const chartData = useMemo(() => data[0]?.days.map((_, dayIndex) => {
     const dayData: Record<string, string | number> = {
       day: data[0].days[dayIndex].dayName.charAt(0).toUpperCase() +
            data[0].days[dayIndex].dayName.slice(1, 3)
@@ -33,7 +34,7 @@ export function WeeklyChart({ data }: WeeklyChartProps) {
     });
 
     return dayData;
-  }) || [];
+  }) || [], [data]);
 
   const colors = [
     'var(--system-blue)',
@@ -99,4 +100,4 @@ export function WeeklyChart({ data }: WeeklyChartProps) {
       </div>
     </div>
   );
-}
+});

@@ -1,12 +1,13 @@
 'use client';
 
+import { memo } from 'react';
 import type { HabitStats } from '@/lib/progress-utils';
 
 interface HabitBarsProps {
   habits: HabitStats[];
 }
 
-export function HabitBars({ habits }: HabitBarsProps) {
+export const HabitBars = memo(function HabitBars({ habits }: HabitBarsProps) {
   if (habits.length === 0) {
     return (
       <div className="bg-bg-secondary rounded-xl p-4">
@@ -50,4 +51,4 @@ export function HabitBars({ habits }: HabitBarsProps) {
       </div>
     </div>
   );
-}
+});

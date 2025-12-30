@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { Flame, Trophy } from 'lucide-react';
 import type { StreakData } from '@/lib/progress-utils';
 
@@ -7,7 +8,7 @@ interface StreakCardProps {
   data: StreakData;
 }
 
-export function StreakCard({ data }: StreakCardProps) {
+export const StreakCard = memo(function StreakCard({ data }: StreakCardProps) {
   return (
     <div className="grid grid-cols-2 gap-3">
       {/* Current Streak */}
@@ -43,4 +44,4 @@ export function StreakCard({ data }: StreakCardProps) {
       </div>
     </div>
   );
-}
+});

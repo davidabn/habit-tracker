@@ -1,23 +1,53 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { HabitCard } from './habit-card';
 import type { HabitWithLogs } from '@/types';
+import { format } from 'date-fns';
 
 interface HabitListProps {
   habits: HabitWithLogs[];
 }
 
 export function HabitList({ habits: initialHabits }: HabitListProps) {
-  const router = useRouter();
   const [habits, setHabits] = useState(initialHabits);
 
   useEffect(() => {
     setHabits(initialHabits);
   }, [initialHabits]);
 
+  // Handle local state update when habit is toggled
+  const handleToggle = useCallback((habitId: string, completed: boolean) => {
+    const today = format(new Date(), 'yyyy-MM-dd');
+    setHabits(prev => prev.map(habit => {
+      if (habit.id !== habitId) return habit;
+
+      if (completed) {
+        // Add log
+        return {
+          ...habit,
+          is_completed_today: true,
+          logs: [...habit.logs, {
+            id: `temp-${Date.now()}`,
+            habit_id: habitId,
+            completed_at: today,
+            source: 'web' as const,
+            created_at: new Date().toISOString()
+          }]
+        };
+      } else {
+        // Remove log
+        return {
+          ...habit,
+          is_completed_today: false,
+          logs: habit.logs.filter(log => log.completed_at !== today)
+        };
+      }
+    }));
+  }, []);
+
+  // Real-time subscription for multi-device sync (without refresh)
   useEffect(() => {
     const supabase = createClient();
 
@@ -30,8 +60,13 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
           schema: 'public',
           table: 'habit_logs',
         },
-        () => {
-          router.refresh();
+        (payload) => {
+          // Only refresh if change came from another source (e.g., WhatsApp)
+          const newRecord = payload.new as { source?: string } | undefined;
+          if (newRecord?.source === 'whatsapp') {
+            // For WhatsApp changes, do a soft refresh of data
+            window.location.reload();
+          }
         }
       )
       .subscribe();
@@ -39,7 +74,7 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [router]);
+  }, []);
 
   const pendingHabits = habits.filter((h) => !h.is_completed_today);
   const completedHabits = habits.filter((h) => h.is_completed_today);
@@ -53,7 +88,7 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
           </p>
           <div className="bg-bg-primary rounded-card overflow-hidden divide-y divide-separator">
             {pendingHabits.map((habit) => (
-              <HabitCard key={habit.id} habit={habit} />
+              <HabitCard key={habit.id} habit={habit} onToggle={(completed) => handleToggle(habit.id, completed)} />
             ))}
           </div>
         </div>
@@ -66,7 +101,7 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
           </p>
           <div className="bg-bg-primary rounded-card overflow-hidden divide-y divide-separator">
             {completedHabits.map((habit) => (
-              <HabitCard key={habit.id} habit={habit} />
+              <HabitCard key={habit.id} habit={habit} onToggle={(completed) => handleToggle(habit.id, completed)} />
             ))}
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -11,9 +11,9 @@ interface CalendarHeatmapProps {
   habits: HabitWithLogs[];
 }
 
-export function CalendarHeatmap({ habits }: CalendarHeatmapProps) {
+export const CalendarHeatmap = memo(function CalendarHeatmap({ habits }: CalendarHeatmapProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const calendarData = getCalendarData(habits, currentMonth);
+  const calendarData = useMemo(() => getCalendarData(habits, currentMonth), [habits, currentMonth]);
 
   const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
@@ -113,4 +113,4 @@ export function CalendarHeatmap({ habits }: CalendarHeatmapProps) {
       </div>
     </div>
   );
-}
+});
