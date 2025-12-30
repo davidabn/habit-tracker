@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { X } from 'lucide-react';
 import type { Habit, Frequency } from '@/types';
 
 interface HabitFormProps {
@@ -45,7 +44,6 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
         return;
       }
 
-      // Garantir que o profile existe antes de inserir o hábito
       const { data: existingProfile } = await supabase
         .from('profiles')
         .select('id')
@@ -99,23 +97,37 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl w-full max-w-md shadow-xl">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-semibold text-gray-900">
+    <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50">
+      <div className="bg-bg-primary w-full sm:max-w-md sm:rounded-xl rounded-t-xl overflow-hidden">
+        {/* Grabber (mobile) */}
+        <div className="flex justify-center pt-2 pb-1 sm:hidden">
+          <div className="w-9 h-1 bg-label-quaternary rounded-full" />
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-separator">
+          <button
+            onClick={onClose}
+            className="text-apple-blue text-body font-normal min-w-[60px] text-left"
+          >
+            Cancelar
+          </button>
+          <h2 className="text-headline text-label-primary">
             {isEditing ? 'Editar Hábito' : 'Novo Hábito'}
           </h2>
           <button
-            onClick={onClose}
-            className="p-1 text-gray-400 hover:text-gray-600 rounded"
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="text-apple-blue text-body font-semibold min-w-[60px] text-right disabled:opacity-50"
           >
-            <X className="w-5 h-5" />
+            {isLoading ? '...' : 'Salvar'}
           </button>
         </div>
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+            <div className="p-3 bg-apple-red/10 rounded-lg text-apple-red text-subhead text-center">
               {error}
             </div>
           )}
@@ -129,12 +141,11 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-footnote font-medium text-label-secondary mb-2">
               Descrição (opcional)
             </label>
             <textarea
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
-              rows={2}
+              className="w-full min-h-[80px] px-4 py-3 bg-bg-secondary rounded-md text-body text-label-primary placeholder:text-label-tertiary border-none outline-none resize-none focus:ring-4 focus:ring-[rgba(0,122,255,0.3)]"
               placeholder="Detalhes adicionais..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -142,7 +153,7 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-footnote font-medium text-label-secondary mb-2">
               Frequência
             </label>
             <div className="flex gap-2">
@@ -152,16 +163,17 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
                   type="button"
                   onClick={() => setFrequency(freq)}
                   className={`
-                    flex-1 py-2 px-3 text-sm rounded-lg border transition-colors
+                    flex-1 min-h-[36px] px-3 text-subhead font-medium rounded-lg
+                    transition-all duration-fast ease-apple
                     ${frequency === freq
-                      ? 'bg-primary-600 text-white border-primary-600'
-                      : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'
+                      ? 'bg-apple-blue text-white'
+                      : 'bg-bg-secondary text-label-primary'
                     }
                   `}
                 >
                   {freq === 'daily' && 'Diário'}
                   {freq === 'weekly' && 'Semanal'}
-                  {freq === 'custom' && 'Personalizado'}
+                  {freq === 'custom' && 'Custom'}
                 </button>
               ))}
             </div>
@@ -169,7 +181,7 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
 
           {frequency === 'custom' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-footnote font-medium text-label-secondary mb-2">
                 Vezes por semana
               </label>
               <input
@@ -178,7 +190,7 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
                 max={7}
                 value={targetPerWeek}
                 onChange={(e) => setTargetPerWeek(Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full min-h-44 px-4 py-3 bg-bg-secondary rounded-md text-body text-label-primary border-none outline-none focus:ring-4 focus:ring-[rgba(0,122,255,0.3)]"
               />
             </div>
           )}
@@ -189,24 +201,6 @@ export function HabitForm({ habit, onClose }: HabitFormProps) {
             value={reminderTime}
             onChange={(e) => setReminderTime(e.target.value)}
           />
-
-          <div className="flex gap-3 pt-2">
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={onClose}
-              className="flex-1"
-            >
-              Cancelar
-            </Button>
-            <Button
-              type="submit"
-              isLoading={isLoading}
-              className="flex-1"
-            >
-              {isEditing ? 'Salvar' : 'Criar'}
-            </Button>
-          </div>
         </form>
       </div>
     </div>

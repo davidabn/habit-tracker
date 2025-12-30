@@ -19,9 +19,7 @@ export function WhatsAppSettings({ phone: initialPhone, enabled: initialEnabled 
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const formatPhone = (value: string) => {
-    // Remove tudo que não é número
     const numbers = value.replace(/\D/g, '');
-    // Limita a 13 dígitos (55 + DDD + número)
     return numbers.slice(0, 13);
   };
 
@@ -38,7 +36,6 @@ export function WhatsAppSettings({ phone: initialPhone, enabled: initialEnabled 
         return;
       }
 
-      // Validar número
       if (enabled && phone.length < 10) {
         setMessage({ type: 'error', text: 'Número de telefone inválido' });
         return;
@@ -66,29 +63,38 @@ export function WhatsAppSettings({ phone: initialPhone, enabled: initialEnabled 
 
   return (
     <div className="space-y-4">
-      <div>
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={enabled}
-            onChange={(e) => setEnabled(e.target.checked)}
-            className="w-5 h-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+      {/* iOS Style Toggle */}
+      <label className="flex items-center justify-between cursor-pointer">
+        <span className="text-body text-label-primary">Ativar integração</span>
+        <button
+          type="button"
+          onClick={() => setEnabled(!enabled)}
+          className={`
+            relative w-[51px] h-[31px] rounded-full
+            transition-colors duration-fast ease-apple
+            ${enabled ? 'bg-apple-green' : 'bg-gray-4'}
+          `}
+        >
+          <span
+            className={`
+              absolute top-[2px] w-[27px] h-[27px] bg-white rounded-full
+              shadow-sm transition-transform duration-fast ease-apple
+              ${enabled ? 'translate-x-[22px]' : 'translate-x-[2px]'}
+            `}
           />
-          <span className="text-gray-700">Ativar integração com WhatsApp</span>
-        </label>
-      </div>
+        </button>
+      </label>
 
       {enabled && (
-        <div className="pl-8">
+        <div className="space-y-3">
           <Input
             label="Número do WhatsApp"
             placeholder="5511999999999"
             value={phone}
             onChange={(e) => setPhone(formatPhone(e.target.value))}
           />
-          <p className="mt-1 text-xs text-gray-500">
-            Digite com código do país e DDD, sem espaços ou traços.
-            <br />
+          <p className="text-caption1 text-label-tertiary">
+            Digite com código do país e DDD, sem espaços.
             Exemplo: 5511999999999
           </p>
         </div>
@@ -96,18 +102,18 @@ export function WhatsAppSettings({ phone: initialPhone, enabled: initialEnabled 
 
       {message && (
         <div
-          className={`p-3 rounded-lg text-sm ${
+          className={`p-3 rounded-lg text-subhead text-center ${
             message.type === 'success'
-              ? 'bg-green-50 border border-green-200 text-green-600'
-              : 'bg-red-50 border border-red-200 text-red-600'
+              ? 'bg-apple-green/10 text-apple-green'
+              : 'bg-apple-red/10 text-apple-red'
           }`}
         >
           {message.text}
         </div>
       )}
 
-      <Button onClick={handleSave} isLoading={isLoading}>
-        Salvar Configurações
+      <Button onClick={handleSave} isLoading={isLoading} className="w-full">
+        Salvar
       </Button>
     </div>
   );

@@ -23,10 +23,7 @@ export default async function HabitsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Meus Hábitos</h1>
-      </div>
-
+      <h1 className="text-large-title text-label-primary">Meus Hábitos</h1>
       <HabitsManager habits={habits} />
     </div>
   );

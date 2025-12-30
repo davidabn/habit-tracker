@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,20 +43,23 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <h1 className="text-2xl font-bold text-gray-900 text-center">
+    <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-bg-secondary">
+      <div className="w-full max-w-sm">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-title1 text-label-primary mb-2">
             Entrar
           </h1>
-          <p className="text-gray-600 text-center mt-1">
+          <p className="text-body text-label-secondary">
             Acesse sua conta para continuar
           </p>
-        </CardHeader>
-        <CardContent>
+        </div>
+
+        {/* Form Card */}
+        <div className="bg-bg-primary rounded-xl shadow-apple p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+              <div className="p-3 bg-apple-red/10 rounded-lg text-apple-red text-subhead text-center">
                 {error}
               </div>
             )}
@@ -90,15 +92,16 @@ export default function LoginPage() {
               Entrar
             </Button>
           </form>
+        </div>
 
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Ainda não tem conta?{' '}
-            <Link href="/register" className="text-primary-600 hover:text-primary-700 font-medium">
-              Criar conta
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+        {/* Footer Link */}
+        <p className="mt-6 text-center text-subhead text-label-secondary">
+          Ainda não tem conta?{' '}
+          <Link href="/register" className="text-apple-blue font-semibold hover:opacity-80">
+            Criar conta
+          </Link>
+        </p>
+      </div>
     </main>
   );
 }

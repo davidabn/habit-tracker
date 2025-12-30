@@ -24,7 +24,7 @@ export function ProgressRing({
       >
         {/* Background circle */}
         <circle
-          className="text-gray-200"
+          className="text-gray-5"
           strokeWidth={strokeWidth}
           stroke="currentColor"
           fill="transparent"
@@ -34,7 +34,7 @@ export function ProgressRing({
         />
         {/* Progress circle */}
         <circle
-          className="text-primary-600 transition-all duration-300 ease-out"
+          className="text-apple-green transition-all duration-normal ease-apple"
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset={offset}
@@ -47,7 +47,7 @@ export function ProgressRing({
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-lg font-bold text-gray-900">{percentage}%</span>
+        <span className="text-title3 text-label-primary">{percentage}%</span>
       </div>
     </div>
   );

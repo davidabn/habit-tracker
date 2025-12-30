@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { HabitList } from '@/components/habits/habit-list';
 import { ProgressRing } from '@/components/dashboard/progress-ring';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import type { HabitWithLogs } from '@/types';
 
 async function getHabitsWithLogs(): Promise<HabitWithLogs[]> {
@@ -45,13 +45,11 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
-          {format(today, "EEEE, d 'de' MMMM", { locale: ptBR })}
+        <h1 className="text-large-title text-label-primary capitalize">
+          {format(today, "EEEE", { locale: ptBR })}
         </h1>
-        <p className="text-gray-600 mt-1">
-          {completed === total && total > 0
-            ? 'Todos os hábitos concluídos!'
-            : `${total - completed} hábito${total - completed !== 1 ? 's' : ''} restante${total - completed !== 1 ? 's' : ''}`}
+        <p className="text-title3 text-label-secondary mt-1">
+          {format(today, "d 'de' MMMM", { locale: ptBR })}
         </p>
       </div>
 
@@ -61,10 +59,14 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-6">
             <ProgressRing percentage={percentage} />
             <div>
-              <p className="text-3xl font-bold text-gray-900">
+              <p className="text-large-title text-label-primary">
                 {completed}/{total}
               </p>
-              <p className="text-gray-600">hábitos hoje</p>
+              <p className="text-body text-label-secondary">
+                {completed === total && total > 0
+                  ? 'Todos concluídos!'
+                  : `${total - completed} restante${total - completed !== 1 ? 's' : ''}`}
+              </p>
             </div>
           </div>
         </CardContent>
@@ -74,12 +76,12 @@ export default async function DashboardPage() {
       {habits.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <p className="text-gray-600 mb-4">
+            <p className="text-body text-label-secondary mb-4">
               Você ainda não tem hábitos cadastrados.
             </p>
             <a
               href="/dashboard/habits"
-              className="text-primary-600 hover:text-primary-700 font-medium"
+              className="text-apple-blue font-semibold hover:opacity-80"
             >
               Criar primeiro hábito
             </a>

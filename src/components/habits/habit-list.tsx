@@ -21,7 +21,6 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
   useEffect(() => {
     const supabase = createClient();
 
-    // Subscribe to habit_logs changes for realtime updates
     const channel = supabase
       .channel('habit-logs-changes')
       .on(
@@ -32,7 +31,6 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
           table: 'habit_logs',
         },
         () => {
-          // Refresh the page data when logs change
           router.refresh();
         }
       )
@@ -49,32 +47,26 @@ export function HabitList({ habits: initialHabits }: HabitListProps) {
   return (
     <div className="space-y-6">
       {pendingHabits.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+        <div>
+          <p className="text-footnote text-label-secondary uppercase tracking-wide px-4 mb-2">
             Pendentes
-          </h2>
-          <div className="space-y-2">
+          </p>
+          <div className="bg-bg-primary rounded-card overflow-hidden divide-y divide-separator">
             {pendingHabits.map((habit) => (
-              <HabitCard
-                key={habit.id}
-                habit={habit}
-              />
+              <HabitCard key={habit.id} habit={habit} />
             ))}
           </div>
         </div>
       )}
 
       {completedHabits.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+        <div>
+          <p className="text-footnote text-label-secondary uppercase tracking-wide px-4 mb-2">
             Concluídos
-          </h2>
-          <div className="space-y-2">
+          </p>
+          <div className="bg-bg-primary rounded-card overflow-hidden divide-y divide-separator">
             {completedHabits.map((habit) => (
-              <HabitCard
-                key={habit.id}
-                habit={habit}
-              />
+              <HabitCard key={habit.id} habit={habit} />
             ))}
           </div>
         </div>
