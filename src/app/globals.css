@@ -34,8 +34,8 @@
   --label-quaternary: rgba(60, 60, 67, 0.18);
 
   /* Backgrounds - Light Mode */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F2F2F7;
+  --bg-primary: #F2F2F7;
+  --bg-secondary: #FFFFFF;
   --bg-tertiary: #FFFFFF;
 
   /* Separators - Light Mode */
@@ -110,8 +110,8 @@
   --label-quaternary: rgba(235, 235, 245, 0.18);
 
   /* Backgrounds - Dark Mode */
-  --bg-primary: #000000;
-  --bg-secondary: #1C1C1E;
+  --bg-primary: #1C1C1E;
+  --bg-secondary: #000000;
   --bg-tertiary: #2C2C2E;
 
   /* Separators - Dark Mode */
