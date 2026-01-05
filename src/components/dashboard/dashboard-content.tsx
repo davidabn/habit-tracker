@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { createClient } from '@/lib/supabase/client';
 import { HabitList } from '@/components/habits/habit-list';
 import { ProgressRing } from '@/components/dashboard/progress-ring';
+import { PlantGrowth } from '@/components/dashboard/plant-growth';
+import { SceneBackground } from '@/components/dashboard/scene-background';
 import { Card, CardContent } from '@/components/ui/card';
 import type { HabitWithLogs } from '@/types';
 
@@ -100,24 +102,29 @@ export function DashboardContent({ initialHabits }: DashboardContentProps) {
 
   return (
     <>
-      {/* Progress Card */}
-      <Card>
-        <CardContent className="py-6">
-          <div className="flex items-center gap-6">
-            <ProgressRing percentage={percentage} />
+      {/* Progress Card with Scene */}
+      <SceneBackground>
+        <div className="relative px-4 pt-4 pb-4">
+          {/* Top row: Progress info */}
+          <div className="flex items-center gap-3 mb-4">
+            <ProgressRing percentage={percentage} size={48} lightText />
             <div>
-              <p className="text-large-title text-label-primary">
+              <p className="text-title3 text-white drop-shadow-md">
                 {completed}/{total}
               </p>
-              <p className="text-body text-label-secondary">
+              <p className="text-footnote text-white/80 drop-shadow-sm">
                 {completed === total && total > 0
                   ? 'Todos concluidos!'
                   : `${total - completed} restante${total - completed !== 1 ? 's' : ''}`}
               </p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+          {/* Plant - large and centered */}
+          <div className="flex justify-center -mb-2">
+            <PlantGrowth percentage={percentage} size={140} />
+          </div>
+        </div>
+      </SceneBackground>
 
       {/* Habit List */}
       <HabitList habits={habits} onHabitToggle={handleHabitToggle} />

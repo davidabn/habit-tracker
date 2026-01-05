@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useCompletionFeedback } from '@/hooks/use-completion-feedback';
 import { Check } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import type { HabitWithLogs } from '@/types';
@@ -14,6 +15,16 @@ interface HabitCardProps {
 export function HabitCard({ habit, onToggle }: HabitCardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleted, setIsCompleted] = useState(habit.is_completed_today);
+  const [showRipple, setShowRipple] = useState(false);
+  const { triggerFeedback } = useCompletionFeedback();
+
+  const triggerRipple = useCallback((isCompleting: boolean) => {
+    if (isCompleting) {
+      setShowRipple(true);
+      setTimeout(() => setShowRipple(false), 400);
+    }
+    triggerFeedback(isCompleting);
+  }, [triggerFeedback]);
 
   const handleToggle = async () => {
     if (isLoading) return;
@@ -29,6 +40,7 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
           await supabase.from('habit_logs').delete().eq('id', todayLog.id);
         }
         setIsCompleted(false);
+        triggerRipple(false);
         onToggle?.(false);
       } else {
         await supabase.from('habit_logs').insert({
@@ -37,6 +49,7 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
           source: 'web',
         });
         setIsCompleted(true);
+        triggerRipple(true);
         onToggle?.(true);
       }
     } catch (error) {
@@ -58,7 +71,7 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
         onClick={handleToggle}
         disabled={isLoading}
         className={`
-          flex-shrink-0 w-6 h-6 rounded-full
+          relative flex-shrink-0 w-6 h-6 rounded-full
           flex items-center justify-center
           transition-all duration-fast ease-apple
           ${isLoading ? 'opacity-50' : ''}
@@ -68,6 +81,9 @@ export function HabitCard({ habit, onToggle }: HabitCardProps) {
           }
         `}
       >
+        {showRipple && (
+          <span className="absolute inset-0 rounded-full bg-apple-green animate-ripple" />
+        )}
         {isCompleted && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
       </button>
 

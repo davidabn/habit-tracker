@@ -25,7 +25,7 @@ export function ThemeToggle() {
     { value: 'system' as const, label: 'Sistema', icon: Monitor },
   ];
 
-  const currentIcon = resolvedTheme === 'dark' ? Moon : Sun;
+  const CurrentIcon = resolvedTheme === 'dark' ? Moon : Sun;
 
   return (
     <div className="relative" ref={menuRef}>
@@ -41,7 +41,7 @@ export function ThemeToggle() {
         "
         aria-label="Alterar tema"
       >
-        <currentIcon className="w-5 h-5" />
+        <CurrentIcon className="w-5 h-5" />
       </button>
 
       {isOpen && (

@@ -172,6 +172,114 @@ body {
   background: var(--system-gray2);
 }
 
+/* Completion Ripple Animation */
+@keyframes ripple-out {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple-out 0.4s var(--ease-default) forwards;
+}
+
+/* Plant Growth Animations */
+@keyframes grow-bounce {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-30px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.8));
+  }
+}
+
+@keyframes celebration {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05) rotate(-2deg);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1.05) rotate(2deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-grow-bounce {
+  animation: grow-bounce 0.5s var(--ease-spring) forwards;
+}
+
+.animate-sway {
+  animation: sway 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.animate-float-up {
+  animation: float-up 1s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-celebration {
+  animation: celebration 0.6s var(--ease-spring);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

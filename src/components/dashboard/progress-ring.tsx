@@ -4,12 +4,14 @@ interface ProgressRingProps {
   percentage: number;
   size?: number;
   strokeWidth?: number;
+  lightText?: boolean;
 }
 
 export function ProgressRing({
   percentage,
   size = 80,
   strokeWidth = 8,
+  lightText = false,
 }: ProgressRingProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
@@ -47,7 +49,9 @@ export function ProgressRing({
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-title3 text-label-primary">{percentage}%</span>
+        <span className={`text-footnote font-semibold ${lightText ? 'text-white drop-shadow-md' : 'text-label-primary'}`}>
+          {percentage}%
+        </span>
       </div>
     </div>
   );
