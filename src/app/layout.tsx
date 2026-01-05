@@ -5,6 +5,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 export const metadata: Metadata = {
   title: "Habit Tracker",
   description: "Acompanhe seus hábitos diários",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/apple-icon",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Habit Tracker",
+  },
 };
 
 export default function RootLayout({
