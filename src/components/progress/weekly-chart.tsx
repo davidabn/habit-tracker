@@ -74,7 +74,7 @@ export const WeeklyChart = memo(function WeeklyChart({ data }: WeeklyChartProps)
                 fontSize: '13px'
               }}
               labelStyle={{ color: 'var(--label-primary)' }}
-              formatter={(value: number) => [`${value}%`, '']}
+              formatter={(value) => [`${value ?? 0}%`, '']}
             />
             <Legend
               wrapperStyle={{ fontSize: '12px' }}
